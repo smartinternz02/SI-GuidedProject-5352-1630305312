@@ -1,0 +1,41 @@
+import numpy as np
+import panda as pd
+df=pd.read_csv("sales.csv")
+df.isnull().any()
+x=df.iloc[:2000,3:7]
+y=df.iloc[:2000,7:]
+
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+ct=ColumnTransformer( [ (‘one’, OneHotEncoder(), [0] ) ], remainder=‘passthrough’ )
+x=ct.fit_transform(x)
+x.shape
+y.shape #check if y and x having same number of row
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test=train_test_split(x,y,test_size=0.2,random_state=0)
+from sklearn.preprocessing import StandardScaler()
+x_train=sc.fit_transform(x_train)
+x_test=sc.fit_transform(x_test)
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+model=Sequential()
+model.add( Dense(units=7,kernel_initializer=“random_uniform”,activation="relu"))
+model.add( Dense(units=14,kernel_initializer=“random_uniform”,activation="relu"))
+model.add( Dense(units=28,kernel_initializer=“random_uniform”,activation="relu"))
+model.add( Dense(units=56,kernel_initializer=“random_uniform”,activation="relu"))
+model.add( Dense(units=112,kernel_initializer=“random_uniform”,activation="relu"))
+model.add( Dense(units=112,kernel_initializer=“random_uniform”,activation="relu"))
+
+model.add( Dense(units=1,kernel_initializer=“random_uniform”,activation="relu"))
+model.compile(optimizer="adam", loss="root_mean_squared", metrics=["mse"])
+#model prediction accurate when mse=0
+model.fit(x_train,y_train,epochs=500)
+#adjust dense unit and epochs until mse approaching 0
+
+pred=model.predict(x_test)
+#check if prediction is accurate
+
+model.save("sales_prediction.h5")
+#save the model
