@@ -39,3 +39,9 @@ pred=model.predict(x_test)
 
 model.save("sales_prediction.h5")
 #save the model
+
+
+==============================================
+My laptop is sent for fixing and I do not have a spare laptop to use.
+I tried using phone to access jupyter notebook but it keeps showing error in importing the libraries.
+I have tried to ask help from groupmates but in the case that they are not corporating much this is all I can do.
